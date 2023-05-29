@@ -1,11 +1,9 @@
-use feature_gate::feature_gate;
+#![allow(dead_code)]
 
-// #[feature_gate(any(feature = "test", not(feature = "test")))]
-// #[feature_gate(feature = "test")]
+use feature_gate::{feature_gate, feature_gate_ex};
+
 #[feature_gate("test")]
 struct Test;
 
-#[test]
-fn it_works() {
-    let _ = Test {};
-}
+#[feature_gate_ex(any(test, feature = "test"))]
+struct Test;

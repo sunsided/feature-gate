@@ -3,18 +3,15 @@ name = "feature-gate"
 version = "0.1.0"
 authors = ["Markus Mayer"]
 description = "A simple macro for feature-gating modules and types"
+repository = "https://github.com/sunsided/feature-gate"
 keywords = ["template", "proc_macro", "procmacro"]
+license-file = "LICENSE.md"
 edition = "2021"
-
-[features]
-default = ["test"]
-test = []
 
 [lib]
 proc-macro = true
 
 [dependencies]
-quote = "1"
-proc-macro2 = "1.0"
+quote = "1.0.28"
 syn = "2.0.18"
 
