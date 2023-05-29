@@ -6,6 +6,10 @@ description = "A simple macro for feature-gating modules and types"
 keywords = ["template", "proc_macro", "procmacro"]
 edition = "2021"
 
+[features]
+default = ["test"]
+test = []
+
 [lib]
 proc-macro = true
 

@@ -1,25 +1,35 @@
 extern crate proc_macro;
 use proc_macro::TokenStream;
+use std::any::{Any, TypeId};
 
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput};
+use syn::{parse_macro_input, DeriveInput, Meta};
 
-/// Example of user-defined [procedural macro attribute][1].
-///
-/// [1]: https://doc.rust-lang.org/reference/procedural-macros.html#attribute-macros
 #[proc_macro_attribute]
 pub fn feature_gate(args: TokenStream, input: TokenStream) -> TokenStream {
-    let args = args.to_string();
     if args.is_empty() {
-        panic!("No feature name was specified")
+        panic!("No feature requirements were specified.")
     }
 
+    let args: syn::Expr = syn::parse(args).expect("that wasn't a String");
+
+    // let args: Meta = syn::parse(args).expect("that wasn't a Meta");
+
+    // let args = parse_macro_input!(args as Meta);
+    /*
+       match args {
+           Meta::Path(_) => panic!("args are a path"),
+           Meta::List(_) => panic!("args are a list"),
+           Meta::NameValue(_) => panic!("args are NameValue"),
+       }
+
+    */
+
     let input = parse_macro_input!(input as DeriveInput);
-    let attributes = format!("{args}");
 
     let tokens = quote! {
-        #[cfg(not(feature = #attributes))]
-        #[cfg_attr(docsrs, doc(cfg(feature = #attributes)))]
+        #[cfg(feature = #args)]
+        // #[cfg_attr(docsrs, doc(cfg(#args)))]
         #input
     };
 
